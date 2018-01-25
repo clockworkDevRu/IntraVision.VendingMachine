@@ -1,17 +1,205 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿html, body {
+    font-family: 'Comfortaa';
+    font-size: 100%;
+    color: #333;
+    height: 100%;
+    width: 100%;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
 }
+
+.red,
+.error {
+    color: #f00;
+}
+
+.yellow {
+    color: #ff0;
+}
+
+.grey {
+    color: #777;
+}
+
+.hidden {
+    display: none;
+}
+
+#background {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: #ссс;
+    z-index: -10;
+}
+
+.header {
+    height: 56px;
+}
+
+.header .logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: url('img/logo.png') 0 0 no-repeat;
+    background-size: contain;
+    width: 225px;
+    height: 100px;
+}
+
+    .logo a {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+.footer {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    z-index: 10;
+    text-align: right;
+    padding: 20px;
+}
+
+    .footer a {
+        text-decoration: none;
+        text-shadow: 1px 1px 1px #000;
+        outline: 0;
+        font-size: 0.8em;
+        color: grey;
+    }
+
+        .footer a:hover,
+        .footer a:active {
+            color: #ff0;
+        }
+
+.loader {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.75);
+    z-index: 1000;
+}
+
+    .loader::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        max-width: 64px;
+        max-height: 64px;
+        background: url('img/loading.gif') 50% 50% no-repeat;
+        background-size: contain;
+    }
+
+.body-content {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.drinks-block,
+.coins-block {
+    position: relative;
+}
+
+#drinksList .drink-card {
+    min-width: 200px;
+    margin-bottom: 15px;
+}
+    #drinksList .drink-card .drink-card-quantity {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+#drinksPurchasedList .drink-purchased-card {
+    max-width: 200px;
+    margin-bottom: 15px;
+}
+    
+#changeList .badge {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+#drinksTab, #coinsTab {
+    position: relative;
+}
+
+    #drinksTab .dataTables_wrapper.form-inline {
+        display: block;
+    }
+
+    #drinksTab .dataTables_wrapper .dataTables_filter label {
+        display: inline-block;
+    } 
+    #drinksTab .dataTables_wrapper th.sorting:after {
+        font-family: Comfortaa;
+        content: "\2195";
+        bottom: 5px;
+    }
+    #drinksTab .dataTables_wrapper th.sorting_asc:after {
+        content: "\2193";
+        bottom: 5px;
+    }
+    #drinksTab .dataTables_wrapper th.sorting_desc:after {
+        content: "\2191";
+        bottom: 5px;
+    }
+    
+#drinksDatatable th {
+    text-align: center;
+    vertical-align: middle;
+}
+#drinksDatatable td {
+    text-align: center;
+    vertical-align: middle;
+}
+    #drinksDatatable td .drink-img {
+        max-width: 100px;
+        max-height: 100px;
+    }
+    #drinksDatatable td .drinks-btn img {
+        width: 24px;
+        height: 24px;
+    }
+
+#modalEditDrink .drink-img {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+    #modalEditDrink .drink-img img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 100px;
+        max-height: 100px;
+    }
+    #modalEditDrink .drink-img .drink-img-delete-btn {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        opacity: 0.0;
+        font-size: 3rem;
+    }
+    #modalEditDrink .drink-img .drink-img-delete-btn:hover {
+        opacity: 0.5;
+    }

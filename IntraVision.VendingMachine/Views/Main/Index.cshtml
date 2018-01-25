@@ -1,0 +1,51 @@
+﻿<div class="row">
+    
+    <div class="col-md-10 drinks-block">
+
+        <div class="card text-center rounded-0">
+            <div class="card-header rounded-0">Товары</div>
+            <div class="card-body text-white bg-dark">
+                <div class="loader" id="loader"></div>
+                <div class="card-deck" id="drinksList"></div>
+            </div>
+        </div>
+
+        <div class="card text-center rounded-0">
+            <div class="card-header rounded-0">Выдача</div>
+            <div class="card-body text-white bg-dark">
+                <div class="card-deck" id="drinksPurchasedList"></div>
+                <button type="button" class="btn btn-light hidden" id="btnTakeDrinks">Забрать</button>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="col-md-2 coins-block">
+
+        <div class="card text-center rounded-0">
+            <div class="card-header text-white bg-primary rounded-0">
+                Внесено:<br /><span class="coins-inserted font-weight-bold">@ViewBag.InsertedCoins.ToString("C")</span>
+            </div>
+            <div class="card-body text-white bg-dark">
+                <div class="loader" id="loader"></div>
+                <div id="coinsList"></div>
+            </div>
+        </div>
+
+        <div class="card text-center rounded-0">
+            <div class="card-header rounded-0">Сдача</div>
+            <div class="card-body text-white bg-dark coins-change-block">
+                <div id="changeList"></div>
+                <button type="button" class="btn btn-light" id="btnGetChange">Выдать</button>
+                <button type="button" class="btn btn-light hidden" id="btnTakeChange">Забрать</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts 
+{
+    <script src="@Url.Content("~/Scripts/Views/main.js")"></script>
+}
