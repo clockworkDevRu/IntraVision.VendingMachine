@@ -1,0 +1,24 @@
+﻿@model IntraVision.VendingMachine.Models.Drink
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "modalDeleteDrink" }))
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.id)
+
+    <div class="form-group">
+        <div class="form-text">
+            Вы действительно желаете удалить товар '@Model.name'?
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">Отмена</button>
+        <input type="submit" class="btn btn-danger" id="subModalForm" value="Удалить" />
+    </div>
+</div>
+}

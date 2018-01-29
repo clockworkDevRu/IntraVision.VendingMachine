@@ -15,6 +15,14 @@ namespace IntraVision.VendingMachine.Controllers
 
         private VendingMachineDb db = new VendingMachineDb();
 
+        private const string DRINKS_IMG_PATH = "~/Content/img/Drinks";
+        private static string[] validImageTypes = new string[]
+        {
+            "image/gif",
+            "image/jpeg",
+            "image/png"
+        };
+
         [AuthorizeToken]
         public ActionResult Index()
         {
@@ -23,9 +31,50 @@ namespace IntraVision.VendingMachine.Controllers
             return View();
         }
 
+        public ActionResult AddDrink()
+        {
+            return PartialView("_AddDrink");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddDrink(Drink model)
+        {
+            if (
+                (model.PostedImage != null && model.PostedImage.ContentLength > 0)
+                && !validImageTypes.Contains(model.PostedImage.ContentType)
+            )
+            {
+                ModelState.AddModelError("PostedImage", "Допускаются изображения только форматов GIF, JPG или PNG.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (model.PostedImage != null && model.PostedImage.ContentLength > 0)
+                {
+                    string saveFileName = Guid.NewGuid() + Path.GetExtension(model.PostedImage.FileName);
+                    string saveFilePath = Path.Combine(Server.MapPath(DRINKS_IMG_PATH), saveFileName);
+                    model.PostedImage.SaveAs(saveFilePath);
+
+                    model.img = saveFileName;
+                }
+
+                db.Drink.Add(model);
+                db.SaveChanges();
+
+                return Content("success");
+            }
+
+            return PartialView("_AddDrink", model);
+        }
+
         public ActionResult EditDrink(int id)
         {
-            Drink drink = db.Drink.Where(d => d.id == id).Single();
+            Drink drink = db.Drink.Find(id);
+            if (drink == null)
+            {
+                return HttpNotFound();
+            }
 
             return PartialView("_EditDrink", drink);
         }
@@ -34,14 +83,11 @@ namespace IntraVision.VendingMachine.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditDrink(Drink model)
         {
-            Drink drink = db.Drink.Where(d => d.id == model.id).Single();
-
-            string[] validImageTypes = new string[]
+            Drink drink = db.Drink.Find(model.id);
+            if (drink == null)
             {
-                "image/gif",
-                "image/jpeg",
-                "image/png"
-            };
+                return HttpNotFound();
+            }
 
             if (
                 (model.PostedImage != null && model.PostedImage.ContentLength > 0)
@@ -56,7 +102,7 @@ namespace IntraVision.VendingMachine.Controllers
                 if (model.PostedImage != null && model.PostedImage.ContentLength > 0)
                 {
                     string saveFileName = Guid.NewGuid() + Path.GetExtension(model.PostedImage.FileName);
-                    string saveFilePath = Path.Combine(Server.MapPath("~/Content/img/Drinks"), saveFileName);
+                    string saveFilePath = Path.Combine(Server.MapPath(DRINKS_IMG_PATH), saveFileName);
                     model.PostedImage.SaveAs(saveFilePath);
 
                     model.img = saveFileName;
@@ -64,7 +110,7 @@ namespace IntraVision.VendingMachine.Controllers
 
                 if (drink.img != null && (drink.img != model.img || model.img == null))
                 {
-                    new FileInfo(Path.Combine(Server.MapPath("~/Content/img/Drinks"), drink.img)).Delete();
+                    new FileInfo(Path.Combine(Server.MapPath(DRINKS_IMG_PATH), drink.img)).Delete();
                 }
 
                 drink.name = model.name;
@@ -78,6 +124,41 @@ namespace IntraVision.VendingMachine.Controllers
             }
 
             return PartialView("_EditDrink", model);
+        }
+
+        public ActionResult DeleteDrink(int id)
+        {
+            Drink drink = db.Drink.Find(id);
+            if (drink == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView("_DeleteDrink", drink);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteDrink(Drink model)
+        {
+            Drink drink = db.Drink.Find(model.id);
+            if (drink == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+
+                if (drink.img != null)
+                {
+                    new FileInfo(Path.Combine(Server.MapPath(DRINKS_IMG_PATH), drink.img)).Delete();
+                }
+                db.Drink.Remove(drink);
+                db.SaveChanges();
+
+                return Content("success");
+
+            }
         }
 
     }

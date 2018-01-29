@@ -1,7 +1,7 @@
 ﻿var drinksDatatableOpts = {
     paging: false,
-    scrollY: 500,
     info: false,
+    autoWidth: false,
     ajax: {
         url: SITE_URL + 'api/drinks',
         type: 'GET',
@@ -51,11 +51,55 @@
 $(function () {
 
     var drinksDatatable = $('#drinksDatatable').DataTable(drinksDatatableOpts);
+    $('#drinksDatatable_wrapper > .row:first-child > div:first-child').append($('#btnAddDrink'));
 
     $('#navDrinksTab').on('shown.bs.tab', function (e) {
 
         drinksDatatable.ajax.reload();
 
+    });
+
+    $('#btnAddDrink').on('click', function () {
+        $('#modal').find('.modal-title').html('Добавить товар');
+
+        $.ajax({
+            url: SITE_URL + 'admin/adddrink',
+            type: 'GET',
+            data: {},
+            success: function (response) {
+                showModal('#modal', response);
+            }
+        });
+    });
+
+    $('#modal').off('submit', '#modalAddDrink');
+    $('#modal').on('submit', '#modalAddDrink', function (e) {
+        e.preventDefault();
+
+        var subButton = $(this).find('#subModalForm');
+        buttonLoading(subButton);
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: new FormData($('#modalAddDrink')[0]),
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response == 'success') {
+
+                    $('#modal').modal('hide');
+                    drinksDatatable.ajax.reload();
+
+                } else {
+
+                    $('#modal').find('.modal-body').html(response);
+
+                    buttonActive(subButton);
+
+                }
+            }
+        });
     });
 
     $('#drinksList').off('click', '.edit-drink-btn');
@@ -104,14 +148,66 @@ $(function () {
         });
     });
 
+    $('#drinksList').off('click', '.delete-drink-btn');
+    $('#drinksList').on('click', '.delete-drink-btn', function () {
+        $('#modal').find('.modal-title').html('Удалить товар');
+
+        $.ajax({
+            url: SITE_URL + 'admin/deletedrink',
+            type: 'GET',
+            data: {
+                id: $(this).attr('data-drink-id')
+            },
+            success: function (response) {
+                showModal('#modal', response);
+            }
+        });
+    });
+
+    $('#modal').off('submit', '#modalDeleteDrink');
+    $('#modal').on('submit', '#modalDeleteDrink', function (e) {
+        e.preventDefault();
+
+        var subButton = $(this).find('#subModalForm');
+        buttonLoading(subButton);
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response == 'success') {
+
+                    $('#modal').modal('hide');
+                    drinksDatatable.ajax.reload();
+
+                } else {
+
+                    $('#modal').find('.modal-body').html(response);
+
+                    buttonActive(subButton);
+
+                }
+            }
+        });
+    });
+
     $('#modal').off('click', '.drink-img-delete-btn');
     $('#modal').on('click', '.drink-img-delete-btn', function (e) {
-        $(this).prevAll('#img').val('');
-        $(this).parent().hide();
+        var img = $('#modal .drink-img');
+        img.find('#img').val('');
+        img.hide();
     });
-    $('#modal').off('change', '#PostedImage');
-    $('#modal').on('change', '#PostedImage', function (e) {
-        $(this).prevAll('.drink-img').hide();
+    $('#modal').off('change', '#modalEditDrink #PostedImage');
+    $('#modal').on('change', '#modalEditDrink #PostedImage', function (e) {
+        var img = $('#modal .drink-img');
+        if (img.length && img.find('#img').val()) {
+            if ($(this).val()) {
+                $('#modal .drink-img').hide();
+            } else {
+                $('#modal .drink-img').show();
+            }
+        }
     });
 
 });

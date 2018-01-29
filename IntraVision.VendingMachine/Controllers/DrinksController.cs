@@ -21,10 +21,10 @@ namespace IntraVision.VendingMachine.Controllers
             return drinks;
         }
 
-        // GET api/values/5
+        // GET api/drinks/5
         public Drink Get(int id)
         {
-            Drink drink = db.Drink.Where(d => d.id == id).Single();
+            Drink drink = db.Drink.Find(id);
 
             return drink;
         }

@@ -2,6 +2,8 @@
 
     $('#drinksList').on('click', '.drink-card', function (e) {
         var drinkCard = $(this);
+        buttonLoading(drinkCard);
+
         var id = drinkCard.attr('data-drink-id');
         $.ajax({
             url: SITE_URL + 'main/buydrink/',
@@ -19,7 +21,9 @@
                 drinkPurchasedCard.append('<div class="card-body">' +
                     '<h5 class="card-title">' + drinkCard.find('.drink-title').text() + '</h5>' +
                 '</div>');
-                $('#drinksPurchasedList').append(drinkPurchasedCard);
+                $('#drinksPurchasedList').append(
+                    $('<div class="col-md-3 col-sm-4"></div>').append(drinkPurchasedCard)
+                );
 
                 $('#btnTakeDrinks').removeClass('hidden');
 
@@ -34,6 +38,9 @@
     });
 
     $('#coinsList').on('click', '.coin-link', function (e) {
+        var btn = $(this);
+        buttonLoading(btn);
+
         var coinValue = $(this).attr('data-coin-value');
         $.ajax({
             url: SITE_URL + 'main/insertcoin/',
@@ -45,8 +52,10 @@
             },
             success: function (insertedCoins) {
                 $('.coins-inserted').html(insertedCoins + ',00 \u20bd');
-
+                
                 updateDrinks();
+
+                buttonActive(btn);
             }
         });
     });
@@ -117,7 +126,9 @@ function updateDrinks() {
                         '<span class="badge badge-dark drink-card-quantity">' + drinks[i].quantity + '</span>' +
                         '<h5 class="card-title"><span class="drink-title">' + drinks[i].name + '</span> <span class="badge badge-secondary">' + drinks[i].price + ',00 \u20bd</span></h5>' +
                     '</div>');
-                    $('#drinksList').append(drinkCard);
+                    $('#drinksList').append(
+                        $('<div class="col-md-4 sol-sm-6"></div>').append(drinkCard)
+                    );
 
                 }
             } else {
@@ -125,19 +136,18 @@ function updateDrinks() {
                 $('#drinksList').html('<div class="text-center">Отсутствуют товары.</div>');
 
             }
+            loader.hide();
         },
         error: function (err) {
             $('#drinksList').html(err);
+            loader.hide();
         }
     });
-
-    loader.hide();
 }
 
 function updateCoins() {
-    var loader = $('#drinksList').prev('.loader');
+    var loader = $('#coinsList').prev('.loader');
     loader.show();
-    $('#coinsList').html('');
 
     $.ajax({
         url: SITE_URL + 'api/coins',
@@ -145,6 +155,7 @@ function updateCoins() {
         cache: false,
         dataType: 'json',
         success: function (coins) {
+            $('#coinsList').html('');
             for (var i = 0; i < coins.length; i++) {
 
                 var disabled = coins[i].allowed ? '' : ' disabled';
@@ -153,13 +164,13 @@ function updateCoins() {
                 $('#coinsList').append(coinBtn);
 
             }
+            loader.hide();
         },
         error: function (err) {
             $('#coinsList').html(err);
+            loader.hide();
         }
     });
-
-    loader.hide();
 }
 
 function updateInsertedCoins() {

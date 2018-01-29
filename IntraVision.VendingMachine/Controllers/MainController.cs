@@ -30,7 +30,12 @@ namespace IntraVision.VendingMachine.Controllers
         {
             decimal insertedCoins = (decimal)Session["InsertedCoins"];
 
-            Drink drink = db.Drink.Where(d => d.id == id).Single();
+            Drink drink = db.Drink.Find(id);
+            if (drink == null)
+            {
+                return HttpNotFound();
+            }
+
             if ((decimal)Session["InsertedCoins"] >= drink.price && drink.quantity > 0)
             {
                 drink.quantity = drink.quantity - 1;
@@ -57,6 +62,11 @@ namespace IntraVision.VendingMachine.Controllers
             decimal insertedCoins = (decimal)Session["InsertedCoins"];
 
             Coin coin = db.Coin.Where(c => c.value == value).Single();
+            if (coin == null)
+            {
+                return HttpNotFound();
+            }
+
             if (coin.allowed)
             {
                 coin.quantity = coin.quantity + 1;
