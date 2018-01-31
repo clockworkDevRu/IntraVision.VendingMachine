@@ -22,20 +22,43 @@ namespace IntraVision.VendingMachine.Controllers
         }
 
         // GET api/coins/?value=5
-        public Coin Get(int value)
+        public HttpResponseMessage Get(int value)
         {
             Coin coin = db.Coin.Where(c => c.value == value).Single();
 
-            return coin;
+            if (coin == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError("ОШИБКА: Монета не найдена."));
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, coin);
+        }
+
+        // PUT api/coins/
+        public HttpResponseMessage Put([FromBody]Coin coin)
+        {
+            Coin _coin = db.Coin.Find(coin.id);
+            if (_coin == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError("ОШИБКА: Монета не найдена."));
+            }
+
+            if (ModelState.IsValid)
+            {
+                _coin.quantity = coin.quantity;
+                _coin.allowed = coin.allowed;
+                db.SaveChanges();
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new HttpError("ОШИБКА: Недопустимое значение."));
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, _coin); ;
         }
 
         // POST api/coins
         //public void Post([FromBody]string value)
-        //{
-        //}
-
-        // PUT api/coins/5
-        //public void Put(int id, [FromBody]string value)
         //{
         //}
 

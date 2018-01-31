@@ -1,5 +1,5 @@
 ﻿<div class="row">
-    
+
     <div class="col-md-12">
 
         <nav>
@@ -14,7 +14,7 @@
                 <div id="drinksList">
 
                     <button class="btn btn-primary" id="btnAddDrink">Добавить</button>
-                    
+
                     <table id="drinksDatatable" class="table table-striped table-hover table-sm">
                         <thead class="thead-dark">
                             <tr>
@@ -30,8 +30,8 @@
                 </div>
             </div>
             <div class="tab-pane fade p-3" id="coinsTab" role="tabpanel">
-                <div class="loader" id="loader"></div>
-                <div id="coinsList"></div>
+                <div class="loader loader-white" id="loader"></div>
+                <div class="row coins-edit-list" id="coinsList"></div>
             </div>
         </div>
 
@@ -53,7 +53,8 @@
     </div>
 </div>
 
-@section Scripts 
+@section Scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="@Url.Content("~/Scripts/Views/admin.js")"></script>
 }

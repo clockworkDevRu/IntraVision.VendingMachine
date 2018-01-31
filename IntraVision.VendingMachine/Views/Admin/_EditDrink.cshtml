@@ -4,47 +4,47 @@
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "modalEditDrink", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(m => m.id)
+    <div class="form-horizontal">
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.name, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(m => m.name, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
-    </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.id)
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.price, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(m => m.price, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(m => m.price, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.PostedImage, htmlAttributes: new { @class = "control-label" })
-        @if (Model.img != null)
-        {
-        <div class="drink-img mb-3">
-            @Html.HiddenFor(m => m.img)
-            <img src="@Url.Content("~/Content/img/Drinks/" + Model.img)" />
-            <button type="button" class="btn drink-img-delete-btn">&times;</button>
+        <div class="form-group">
+            @Html.LabelFor(m => m.name, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(m => m.name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.name, "", new { @class = "text-danger" })
         </div>
-        }
-        @Html.TextBoxFor(m => m.PostedImage, new { type = "file", @class = "form-control-file", accept = "image/*" })
-        @Html.ValidationMessageFor(m => m.PostedImage, "", new { @class = "text-danger" })
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.quantity, htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(m => m.quantity, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(m => m.quantity, "", new { @class = "text-danger" })
-    </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.price, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(m => m.price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.price, "", new { @class = "text-danger" })
+        </div>
 
-    <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">Отмена</button>
-        <input type="submit" class="btn btn-dark" id="subModalForm" value="Сохранить" />
+        <div class="form-group">
+            @Html.LabelFor(m => m.PostedImage, htmlAttributes: new { @class = "control-label" })
+            @if (Model.img != null)
+            {
+                <div class="drink-img mb-3">
+                    @Html.HiddenFor(m => m.img)
+                    <img src="@Url.Content("~/Content/img/Drinks/" + Model.img)" />
+                    <button type="button" class="btn drink-img-delete-btn">&times;</button>
+                </div>
+            }
+            @Html.TextBoxFor(m => m.PostedImage, new { type = "file", @class = "form-control-file", accept = "image/*" })
+            @Html.ValidationMessageFor(m => m.PostedImage, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.quantity, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(m => m.quantity, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.quantity, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">Отмена</button>
+            <input type="submit" class="btn btn-dark" id="subModalForm" value="Сохранить" />
+        </div>
     </div>
-</div>
 }

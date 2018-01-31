@@ -22,11 +22,16 @@ namespace IntraVision.VendingMachine.Controllers
         }
 
         // GET api/drinks/5
-        public Drink Get(int id)
+        public HttpResponseMessage Get(int id)
         {
             Drink drink = db.Drink.Find(id);
 
-            return drink;
+            if (drink == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound, new HttpError("ОШИБКА: Товар не найден."));
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, drink);
         }
 
         // POST api/values

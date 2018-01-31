@@ -6,12 +6,6 @@
     width: 100%;
 }
 
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
 .red,
 .error {
     color: #f00;
@@ -92,7 +86,9 @@ textarea {
     background: rgba(0, 0, 0, 0.75);
     z-index: 1000;
 }
-
+.loader.loader-white {
+    background: rgba(255, 255, 255, 0.75);
+}
     .loader::after {
         content: "";
         display: block;
@@ -208,3 +204,9 @@ textarea {
     #modalEditDrink .drink-img .drink-img-delete-btn:hover {
         opacity: 0.5;
     }
+
+.coins-edit-list .coin-card img {
+    width: 64px;
+    height: 64px;
+    margin: 15px auto;
+}

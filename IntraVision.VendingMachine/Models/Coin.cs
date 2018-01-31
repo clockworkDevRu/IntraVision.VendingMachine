@@ -10,10 +10,15 @@ namespace IntraVision.VendingMachine.Models
     {
         public int id { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Значение поля {0} может быть только положительным.")]
+        [Display(Name = "Номинал")]
         public int value { get; set; }
 
-        public int quantity { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Значение поля {0} может быть только положительным.")]
+        [Display(Name = "Количество")]
+        public int quantity { get; set; } = 0;
 
-        public bool allowed { get; set; }
+        [Display(Name = "Принимается")]
+        public bool allowed { get; set; } = true;
     }
 }

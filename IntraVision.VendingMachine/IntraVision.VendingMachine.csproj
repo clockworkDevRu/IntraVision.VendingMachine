@@ -318,7 +318,6 @@
     <Content Include="Content\img\delete_icon.png" />
     <Content Include="Content\img\edit_icon.png" />
     <Content Include="Content\img\loading.gif" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -433,6 +432,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Views\admin.js" />
     <Content Include="Scripts\Views\main.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -454,7 +458,6 @@
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -471,6 +474,8 @@
     <Content Include="Views\Admin\_EditDrink.cshtml" />
     <Content Include="Views\Admin\_DeleteDrink.cshtml" />
     <Content Include="Views\Admin\_AddDrink.cshtml" />
+    <Content Include="Views\Admin\View.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

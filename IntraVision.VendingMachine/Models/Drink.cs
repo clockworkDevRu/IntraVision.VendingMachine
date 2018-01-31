@@ -18,14 +18,16 @@ namespace IntraVision.VendingMachine.Models
 
         [Column(TypeName = "money")]
         [Display(Name = "Цена")]
-        public decimal price { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal price { get; set; } = 0.00m;
 
         [StringLength(255)]
         [Display(Name = "Изображение")]
         public string img { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Значение поля {0} может быть только положительным.")]
         [Display(Name = "Количество")]
-        public int quantity { get; set; }
+        public int quantity { get; set; } = 0;
 
         [NotMapped]
         [Display(Name = "Изображение")]

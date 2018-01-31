@@ -4,7 +4,7 @@
         var drinkCard = $(this);
         buttonLoading(drinkCard);
 
-        var id = drinkCard.attr('data-drink-id');
+        var id = drinkCard.data('drinkId');
         $.ajax({
             url: SITE_URL + 'main/buydrink/',
             type: 'POST',
@@ -41,7 +41,7 @@
         var btn = $(this);
         buttonLoading(btn);
 
-        var coinValue = $(this).attr('data-coin-value');
+        var coinValue = $(this).data('coinValue');
         $.ajax({
             url: SITE_URL + 'main/insertcoin/',
             type: 'POST',
@@ -127,7 +127,7 @@ function updateDrinks() {
                         '<h5 class="card-title"><span class="drink-title">' + drinks[i].name + '</span> <span class="badge badge-secondary">' + drinks[i].price + ',00 \u20bd</span></h5>' +
                     '</div>');
                     $('#drinksList').append(
-                        $('<div class="col-md-4 sol-sm-6"></div>').append(drinkCard)
+                        $('<div class="col-md-4 col-sm-6"></div>').append(drinkCard)
                     );
 
                 }

@@ -33,7 +33,7 @@ namespace IntraVision.VendingMachine.Controllers
 
         public ActionResult AddDrink()
         {
-            return PartialView("_AddDrink");
+            return PartialView("_AddDrink", new Drink());
         }
 
         [HttpPost]
