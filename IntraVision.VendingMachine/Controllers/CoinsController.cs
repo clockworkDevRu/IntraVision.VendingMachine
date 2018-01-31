@@ -57,14 +57,5 @@ namespace IntraVision.VendingMachine.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, _coin); ;
         }
 
-        // POST api/coins
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        // DELETE api/coins/5
-        //public void Delete(int id)
-        //{
-        //}
     }
 }
