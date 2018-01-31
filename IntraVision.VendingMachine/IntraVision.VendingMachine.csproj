@@ -318,6 +318,7 @@
     <Content Include="Content\img\delete_icon.png" />
     <Content Include="Content\img\edit_icon.png" />
     <Content Include="Content\img\loading.gif" />
+    <Content Include="Content\img\loading_white.gif" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
