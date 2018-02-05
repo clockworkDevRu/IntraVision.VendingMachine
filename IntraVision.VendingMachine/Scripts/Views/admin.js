@@ -51,7 +51,9 @@
 $(function () {
 
     var drinksDatatable = $('#drinksDatatable').DataTable(drinksDatatableOpts);
-    $('#drinksDatatable_wrapper > .row:first-child > div:first-child').append($('#btnAddDrink'));
+    var dtControls = $('#drinksDatatable_wrapper > .row:first-child > div:first-child');
+    dtControls.append($('#btnAddDrink'));
+    dtControls.append($('#btnImportDrinks'));
 
     $('#navDrinksTab').on('shown.bs.tab', function (e) {
 
@@ -64,6 +66,97 @@ $(function () {
         updateCoins();
 
     });
+
+    /*----- ИМПОРТ ТОВАРОВ -----*/
+    $('#btnImportDrinks').on('click', function () {
+        $('#modal').find('.modal-title').html('Импорт товаров');
+
+        $.ajax({
+            url: SITE_URL + 'admin/importdrinks',
+            type: 'GET',
+            data: {},
+            success: function (response) {
+
+                showModal('#modal', response);
+
+                var uploadBlock = $('#modal .drop-file-block');
+                var uploadBtn = $('#modal #importFile');
+
+                uploadBtn.fileupload({
+                    url: SITE_URL + 'admin/importdrinks',
+                    dataType: 'json',
+                    dropZone: uploadBlock,
+
+                    progressall: function (e, data) {
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        uploadBlock.children('.upload-progress-bar').css('width', progress + '%');
+                    },
+
+                    add: function (e, data) {
+                        uploadBlock.children('.upload-progress-bar').css('width', '0%');
+
+                        var uploadErrors = [];
+                        var acceptFileTypes = [
+                            'application/vnd.ms-excel',
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        ];
+                        if (data.originalFiles[0]['type'].length && acceptFileTypes.indexOf(data.originalFiles[0]['type']) == -1) {
+                            uploadErrors.push('Допускаются только файлы форматов xls и xlsx');
+                        }
+                        if (data.originalFiles[0]['size'] && data.originalFiles[0]['size'] > 1024 * 1024 * 100) {
+                            uploadErrors.push('Превышен максимальный размер файла (100mb)');
+                        }
+                        if (uploadErrors.length > 0) {
+                            updateStatus(uploadErrors.join('<br />'), true);
+                        } else {
+
+                            updateStatus('Загрузка...');
+
+                            data.formData = {
+                                '__RequestVerificationToken': $('#modal input[name=__RequestVerificationToken]').val(),
+                                'rewrite': $('#modal #cbRewriteDrinks').is(':checked')
+                            };
+
+                            data.submit();
+
+                        }
+                    },
+
+                    fail: function (e, data) {
+                        updateStatus(data.jqXHR.responseJSON, true);
+                    },
+
+                    done: function (e, data) {
+                        if (data.result.error) {
+
+                            updateStatus(data.result.error, true);
+
+                        } else {
+
+                            $('#modal').modal('hide');
+                            drinksDatatable.ajax.reload();
+
+                        }
+                    }
+
+                });
+
+                function updateStatus(statusText, isError) {
+                    isError = isError || false;
+
+                    var uploadStatus = uploadBlock.find('.upload-status');
+                    if (!isError) {
+                        uploadStatus.removeClass('error');
+                    } else {
+                        uploadStatus.addClass('error');
+                    }
+                    uploadStatus.html(statusText);
+                }
+
+            }
+        });
+    });
+    /*----------*/
 
     /*----- ДОБАВИТЬ ТОВАР -----*/
     $('#btnAddDrink').on('click', function () {
